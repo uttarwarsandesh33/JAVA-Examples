@@ -1,0 +1,501 @@
+// converting primitive data type into object using wrapper classes and again converting the object into data type.
+
+public class Conversions
+{
+   public static void main(String args[])
+   {
+        int x = 10;
+        Integer i1 = new Integer(x);
+        System.out.println(i1);
+       // System.out.println(i1*i1); error
+
+        int k = i1.intValue();
+        System.out.println(k*k);
+
+       double d1 = 10.5;
+       Double d2 = new Double(d1);
+       System.out.println(d2);
+       // System.out.println(d2*d2); error
+
+      double d3 = d2.doubleValue();
+      System.out.println(d3*d3);
+  }
+}
+
+/*
+Modifications:
+
+a)
+            double d1 = 10.5;
+            Double d2 = new Double(d1);
+      //double d3 = d2.doubleValue();
+
+        int m = d2.intValue();
+       
+      System.out.println(m);
+
+b)  another style of parsing:
+
+     String str1 = "10";
+     // int x = Integer.parseInt(str1);
+     Integer i1 = new Integer(str1);
+     int x = i1.intValue();
+
+  // shortcut for above
+    int x = new Integer(str2).intValue();
+*/
+=================================
+/*                                Stack 
+All DS are placed in the package java.util. The other classes in java.util are Date, Calander, GregorianCalander, Random etc.
+
+Stack follows LIFO(Last In First Out).  That is, last added element is popped(given) out.
+
+Note: For other classes of java.util package, separate printed notes will be given.
+
+*/
+
+import java.util.*;  
+                     // for Stack  and Date classes
+public class StackDemo
+{
+   public static void main(String args[])
+   {
+                               // creating a Stack object
+       Stack st = new Stack();
+         
+       System.out.println(st.empty( )); // true
+
+        int x = 10;
+                                       // st.push(x); error
+        Integer i1 = new Integer(x);
+     st.push(i1);     // to add an object to stack
+    System.out.println(st.empty( ));    // false
+
+       double d = 10.5;
+       Double d1 = new Double(d);
+       st.push(d1);
+
+      // pushing an anonymous Integer object
+       st.push(new Integer(20));
+
+                                // pushing a string object
+       String s1 = new String("Okay");
+       st.push(s1);
+
+            // pushing anonymous string objects 
+      st.push("hello");      
+      st.push("hello1");
+      st.push("hello2");
+
+           // pushing an anonymous Date object	
+      st.push(new Date( ));
+
+                           // you can push any object
+    StringBuffer sb1 = new StringBuffer("rama");
+    st.push(sb1);
+
+     System.out.println("Size before first pop: " + st.size());
+
+      // to retrieve the last object added(LIFO)
+   System.out.println(st.pop( ));         // rama
+
+      System.out.println("Size after first pop: " + st.size());
+
+ System.out.println("\n\nTo retrieve in a loop:");
+
+     while( ! st.empty( ) )
+     {
+           System.out.println(st.pop());		
+     }
+  } 
+}
+
+/*
+      Once poped out, the object comes out of the stack permanently. That is why, rama is not printed in the loop(because it is popped out earlier).
+
+      empty( ) method returns true if the stack is empty. If elements exist, it returns false.
+
+     push(Object) is a method with which we can add an element to the stack.
+
+     pop( ) is method with which we can retrieve the element from the stack.	
+*/
+======================================
+//                          Vector
+// Vector is used very often by the programmers.  It includes many methods with which Vector object can be manipulated. As usual, it also stores only objects.
+
+import java.util.*;                       // for Vector class
+public class VectorDemo
+{
+   public static void main(String args[])
+   {
+                                            // creating Vector object
+Vector vect = new Vector( );
+                                                      // adding elements
+vect.addElement(new Integer(10));
+vect.addElement(new Float(15.5f));
+vect.addElement(new String("Hello"));
+vect.addElement("SBM");
+	
+Double d = new Double(15.76);
+vect.add(d);                     // add() can also be used
+
+   	        // inserting at the specified index	
+String str = "World";
+vect.insertElementAt(str,1); 
+
+	             // retrieving the first element
+System.out.println(vect.firstElement()); 
+
+	            // retrieving the last element
+System.out.println(vect.lastElement()); 
+
+      // retrieving the element at the specified index
+System.out.println(vect.elementAt(3)); 
+
+            // to find the index number of an element
+System.out.println(vect.indexOf("SBM")); 
+
+ // to check an element exist or not;  true or false
+System.out.println(vect.contains("World")); 
+
+                         // to find the number of elements
+System.out.println(vect.size( )); 
+
+    	  // to find the capacity of the vector
+System.out.println(vect.capacity( )); 
+
+// default capacity of vector is 10 and incremented by 10 when get filled up like 16 for a StringBuffer
+
+                       // to print all the elements in a row
+System.out.println(vect); 
+
+// Enumeration is an interface from java.util package
+
+System.out.println("\n\nPrinting all elements using Enumeration interface:");
+
+Enumeration e = vect.elements( );
+
+while(e.hasMoreElements( ))
+{
+         System.out.println(e.nextElement( )); 
+}
+
+System.out.println("\n\nAnother way of printing all elements using Vector methods");
+
+for(int i = 0; i < vect.size( ); i++)
+{
+        System.out.println(vect.elementAt(i)); 
+}
+
+// to read an element and convert it into data type
+	Object obj = vect.firstElement( );	
+	Integer xx = (Integer) obj;
+	int m = xx.intValue();
+	System.out.println("Value is " + m*m);
+  }
+}
+
+/* 
+     other methods:
+	a) remove(int index)
+	b) remove(Object obj)
+	c) removeAll( )	
+     eg:
+	remove(3);
+	remove("SBM");
+
+	Enumeration is an interface from java.util package.  By itself, it is not a data structure, but it helps data structures to print their values.
+
+               Enmeration e = vect.elements();
+
+         Now, e contains all the elements of Vector.
+
+          To print the values(elements), the Enumeration contains two methods:
+   
+            1. hasMoreElements( ) : used in while loop. This method returns true as long as elements exist with it to return.  If all elements are returned, this method returns false and loop terminates.  This type is designing a method helps to print all the values when the number of elements are not known.
+
+      2.  nextElement( ) :  returns each elememet (as an object of Object class)
+
+        Eventhough, Enumeration was developed for DS, it is used in many other places.  We use this in Advanced Java in Servlets and JSP.
+*/
+======================================
+/*                              Hashtable
+
+Hashtable stores key/value pairs.  Key and value must be objects(of any class).  When we supply the key, it returns the value.
+*/
+
+import java.util.*;
+public class HashDemo
+{  
+    public static void main(String args[])
+    {
+                              // creating a Hashtable object
+       Hashtable ht = new Hashtable();
+
+                                      // adding key/value pairs
+      ht.put("Apple","red");
+      ht.put("Strawberry","red");
+      ht.put("Lime","green");
+
+// key and value must be objects only(of any class)
+      HashDemo hd = new HashDemo();
+      ht.put(hd,"hello world");
+
+      String str = "thanks";
+      ht.put(str, "Sita");
+
+      ht.put("totalmarks", new Double(455.6));
+      ht.put("subjects", new Integer(6));
+	
+// to retrieve a value by supplying a key
+      System.out.println(ht.get("Lime"));
+
+                  	                // to print all the elements 
+  System.out.println("Printing all the elements");
+
+      Enumeration e = ht.keys( );
+
+// now, e contains all the key objects (not value objects)
+// nextElement( ) returns the key object
+
+      while(e.hasMoreElements())
+     {
+         Object  k = e.nextElement();    // k is the key
+         Object v = ht.get(k);
+                         // v is the value associated with k
+         System.out.println(k + " : " + v);
+    }	
+	                    // same casting procedure
+Object o1 = ht.get("totalmarks");
+Double d1 = (Double) o1;
+double d2 = d1.doubleValue();
+
+Object o2 = ht.get("subjects");
+Integer ii = (Integer) o2;
+int m = ii.intValue();
+System.out.println("Average marks: " + Math.round(d2/m));
+  }
+}
+
+/*
+put(object, object) method takes two objects as parameters; first one as a key and the second one as a value.
+
+get(object) method returns an object of Object class and we must supply the key object as parameter.
+*/
+=================================
+/*                       Properties
+
+ Properties is like Hashtable, but with a small difference. Properties also takes key/value pairs, but they must be string objects only.  
+
+(Remember, incase of Hashtable, the key and value can be objects of any class.)
+
+*/
+
+import java.util.*;
+public class PropertiesDemo
+{
+     public static void main(String args[])
+     {
+            	Properties p = new Properties();
+
+// key/value pair must be string objects only
+
+	p.put("Bawarchi", "Biryani");
+	p.put("Blue Sea", "Tea");
+	p.put("Niagara", "Haleem");
+  System.out.println(p.getProperty("Bawarchi"));
+
+System.out.println(p.getProperty("Shivani"));
+// returns null because Shivani key does not exist
+
+System.out.println("\n\nTo print the values using Enumeration interface:");
+
+String str;      // a temporary string variable
+
+Enumeration e = p.keys( );
+while(e.hasMoreElements( ))
+{
+        str = (String) e.nextElement( );
+        System.out.println(str + " : " + p.getProperty(str));
+}
+}
+}
+
+/*
+   getProperty(String) takes the key as parameter and returns the value as a String.
+*/
+=================================
+/*                        LinkedList
+
+   It is same as C/C++, but without pointers.  We use methods to manipulate the LinkedList like adding, deleting, inserting and retrieving etc.
+*/
+
+import java.util.*;
+public class LinkedListDemo
+{
+    public static void main(String args[])
+    {
+         LinkedList list = new LinkedList( );
+
+// adding methods
+         Integer i1 = new Integer(10);
+         list.add(i1);                        // index is 0
+         list.add(new Double(3.5));  // index is 1
+         list.add("Hello");              // index is 2
+
+         list.add(new Boolean(true));
+
+// inserting at specified index(say 1); Remember that index starts at 0
+         list.add(1, new Float(2.5f)); 
+
+                                          // adding at first
+         list.addFirst(new Character('A'));
+
+                                           // adding at last
+         list.addLast(new Short("5"));
+
+   list.add(i1); // adding again same element
+
+         list.add(new Byte("3"));
+
+// replacing at the specified index, original is lost
+         list.set(2,"S N SBM");  
+
+                                   // removing methods
+// removing at the specified index
+        list.remove(1);	
+
+// removing the first element
+        System.out.println(list.removeFirst());
+
+// removing the last element
+        list.removeLast();
+
+// other remove methods are removeAll( ) and removeRange(int start, int end)
+
+                           // miscellaneous methods
+       // retrieving the index number of an element
+System.out.println(list.indexOf(i1));
+
+      // if multiple elements exists of the same name
+System.out.println(list.lastIndexOf(i1));
+
+	// retrieving the elements
+// retrieving the element at the specified index
+System.out.println(list.get(1));
+
+// to get the first element
+System.out.println(list.getFirst());
+
+// to get the last element
+System.out.println(list.getLast());
+
+	// miscellaneous methods
+// to know the number of elements in the list
+System.out.println(list.size());
+
+// to check an element exists or not
+System.out.println(list.contains(i1));
+
+// to check any elements are there or not
+System.out.println(list.isEmpty());
+
+System.out.println("\n\nTo retrieve the elements using ListIterator instead of Enumeration:");
+
+/*
+instead of Enumeration, it is ListIterator. 2 indicates to print from 2nd element onwards.  If any number is not specified, default is 0 and prints all.  This is the advantage over Enumeration. We can print from any index.
+*/
+      ListIterator li = list.listIterator(2);
+      while(li.hasNext())
+      {
+            System.out.println(li.next());
+      }
+   }
+}
+=================================/*                       ArrayList
+
+ArrayList is like Vector.  In Vector, all methods are synchronized and for this reason, Vector is slow in execution.  ArrayList methods are not synchronized and by performance is faster.
+
+*/
+
+import java.util.*;
+public class ArrayListDemo
+{
+    public static void main(String args[])
+    {
+                   // creating an ArrayList object
+        ArrayList al = new ArrayList();
+
+                                 // adding elements
+        al.add("Sumathi");
+        al.add("Sridhar");
+
+           // printing the number of elements
+        System.out.println("size: " + al.size()); 
+
+        al.set(0, "SNSBM");  
+  // replacing the existing element at 0 index
+
+                             // Printing the contents
+        for(int i = 0; i < al.size(); i++) 
+        {
+            String str1 = (String) al.get(i);
+            System.out.println(str1);
+        }
+               // An equivalent loop with              // iterator(instead of Enumeration)
+
+	Iterator it = al.iterator();
+	while( it.hasNext() ) 
+	{
+                    System.out.println(it.next());
+                  }
+        }
+}
+
+/*
+ 1.  Iterator is the superclass of ListIterator
+ 2.  Iterator is an interface and ListIterator is a concrete class 
+ 3.  ListIterator replaces Enumeration in collections framework.
+
+                  Iterator it = al.iterator(3);
+
+            The above statement returns from 3rd element to the last.
+
+            If 3 is omitted, it prints from first to last.  This is the advantage over Enumeration with Iterator.
+
+Interview Question:
+
+Difference between Vector and ArrayList:
+
+            They are more like same, but they differ in their performance.
+
+1. In ArrayList, we can use Iterator where we can print from any element we want.
+
+2. Vector methods are synchronized and ArrayList methods are not synchronzied. For this reason, by performance-wise Vector is slow and ArrayList is faster in retrieval.
+
+3.  If performance is the consideration, better use ArrayList.
+
+Note: We will come to know about "synchronized" keyword in multithreading chapter.
+*/
+=================================
+                     StringTokenizer
+
+StringTokenizer is from java.util package and its  job is to tokenize a string into independent words.  Each word is called a token.
+*/
+
+import java.util.*;
+public class StringTokenizerDemo
+{
+     public static void main(String args[])
+     {
+             String str = "1234 67.56 A rama";
+        StringTokenizer st = new StringTokenizer(str);	
+        System.out.println(st.countTokens());
+	while(st.hasMoreElements())
+	{
+	   String s  = st.nextToken();
+	   System.out.println(s);
+	}
+    }
+}
+=====================================
