@@ -1,0 +1,1190 @@
+/*                      FlowLayout
+
+FlowLayout manager places the components in the center on the north(top) side of the frame.  The default alignment is center which can be changed to left or right.  The default gap either horizontally or vertically is 5 pixels which can be changed.   The FlowLayout manager arranges buttons as per the width of the frame. When the row is full, the extra components comes to the next row, again centered.  The component takes minimum-most size in this layout. The minimum size of the component is called preferred size.
+
+ It is the default layout manager for panels and applets.
+*/
+
+// to illustrate FlowLayout manager.
+
+import java.awt.*;  // no event handling
+
+public class FlowDemo extends Frame 
+{
+  public FlowDemo()
+  {                                    // setting the layout to the FL
+           setLayout(new FlowLayout(FlowLayout.CENTER,30,40));
+
+                                   // adding 12 anonymous buttons
+          for(int i = 0 ; i < 12 ; i++)
+          {
+              add(new Button("Button: " + i));
+          }
+
+          setSize(300,300);
+          setVisible(true);
+    }
+    public static void main(String args[])
+    {
+           new FlowDemo();
+    }
+}      
+=======================================
+/*                               BorderLayout
+
+BorderLayout manager, as the name implies, arranges the components at the borders and center of the frame.  When a component is added to a side, it occupies complete space of the side.  That is, we can add maximum 5 components to the container, like frame, 4 in the sides and 1 in the center.  When we resize the frame, the components grow automatically to fill the sides.   The default gap either horizontally or vertically is 0 pixels which we can change.
+
+The default layout manger for Frame and Dialog is  BorderLayout.
+*/
+
+// WC also used for just practice and is no way connected with the BorderLayout
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class BorderDemo extends Frame implements WindowListener
+{
+  public BorderDemo()
+  {		// set the layout to BL
+      setLayout(new BorderLayout());
+
+       setBackground(Color.red);
+
+// the red color is not seen as Hgap and Vgap between the components is 0 pixels by default
+
+// creating 5 buttons to add at 5 different places
+      Button nb = new Button("Top");
+      Button sb = new Button("Bottom");
+      Button eb = new Button("Right");
+      Button wb = new Button("Left");
+      Button cb = new Button("Middle");
+
+//  We must specify the position in BL, default is Center
+                    add(nb,"North");	 // top
+                    add(sb,"South");	// bottom
+	add(eb,"East");          // right
+	add(wb,"West");       // left
+	//add(cb,"Center");     // middle
+
+	addWindowListener(this);         // for WC
+
+	setSize(300,300);
+	setVisible(true);
+  }
+        // override the 7 abstract methods of WL for WC
+
+  public void windowClosing(WindowEvent e)
+  {
+          System.exit(0);
+  }
+  public void windowOpened(WindowEvent e) {   }
+  public void windowClosed(WindowEvent e) {   }
+  public void windowIconified(WindowEvent e) {   }
+  public void windowDeiconified(WindowEvent e) { }
+  public void windowActivated(WindowEvent e) { }
+  public void windowDeactivated(WindowEvent e) { }
+
+  public static void main(String args[])
+  {
+	new BorderDemo();
+  }
+}
+=======================================
+/*                     GridLayout
+
+In GridLayout, we divide the container, say frame, into a number of rows and columns comprising cells. Each cell can accomodate one component. The default gap between the components is 0 which we can change.
+*/
+
+import java.awt.*;
+public class GridDemo extends Frame
+{
+  public GridDemo()
+  {
+          setLayout(new GridLayout(3,4,10,20)); 
+// 3 rows and 4 columns which makes 12 cells
+// 10 hgap, 20 vgap
+	setBackground(Color.magenta);
+// color is not seen due to 0 pixel gap
+
+	// add 12 buttons in 12 cells
+        for(int i = 0; i < 12; i++)
+       {
+                add(new Button("Button " + i));
+       }
+       setSize(300,300);
+       setVisible(true);
+  }
+  public static void main(String args[])
+  {
+      new GridDemo();
+  }
+}
+======================================
+/*                           TextField
+
+    After Button, the most used component is TextField.  TextField is used by the programmer to display some text(message) to the user or to take some input from the user dynamically.
+
+   The limitation of TextField is that we can enter or display only one line of text(of any length) and this limitation is overcome in TextArea, another GUI component.
+*/
+
+// to validate the user name and password.
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class UserPass extends Frame implements ActionListener
+{   
+   // no window closing, you can write extra
+
+         // creating reference variables
+ Label lab1;
+ TextField tf1, tf2, tf3;
+		// constructor
+ public UserPass( )
+ {
+        setLayout(new GridLayout(3,2,10,15));
+
+        // 3 rows, 2 columns, 10 Hgap, 15 Vgap
+
+                                // filling the gaps with yellow color
+             setBackground(Color.yellow);
+
+                        // Label is a component like a Button
+      lab1= new Label("Enter User Name");
+                                      
+                                                 // creating text fields
+       tf1 = new TextField(15);
+       tf2 = new TextField(15);
+       tf3 = new TextField("I Display",15);  
+
+                     // registering text field with AL
+        tf2.addActionListener(this);
+
+                                            // beautification
+tf2.setEchoChar('*');          // displayed as *
+tf3.setEditable(false);      //user cannot enter anything
+tf3.setBackground(Color.cyan);
+tf3.setForeground(Color.blue);
+tf3.setFont(new Font("Monospaced", Font.BOLD, 25));
+		
+              // adding components, order is important
+       add(lab1);
+       add(tf1);
+                                       // adding anonymous label
+       add(new Label("Enter Password"));
+       add(tf2);
+
+       add(new Label("Result"));
+       add(tf3);
+
+setTitle("Validating User name and Password ");
+setSize(300,200);
+setVisible(true);
+}
+
+            // override the only abstract method of AL
+public void actionPerformed(ActionEvent e)
+{
+                            // to read what the user entered
+String s1 = tf1.getText();  
+String s2 = tf2.getText();
+ 		                           // validation
+if(s1.equalsIgnoreCase("snrao")&&(s2.equals("java")))
+{
+                             // displaying in text field
+      tf3.setText("VALID");  
+      tf3.setBackground(Color.green);
+}
+else
+{
+      tf3.setText("INVALID");
+      tf3.setBackground(Color.red);
+}
+}  // close of actionPerformed( )
+
+public static void main(String[] args)
+{
+      new UserPass();
+}
+}
+
+/*
+       getText() will return what user entered in the text field as a string.  That is, the return type of getText() method is string.
+
+      setText(String) places the string in the text field.  
+
+Note: The setText() takes always a string as parameter and getText() returns always a string.
+
+        When the user presses enter key in tf2, actionPerformed() method is called.
+
+           tf1 = new TextField(15);
+
+    15 gives the width of the text field.  That is, 15 characters we can see at a time in the text field.  But, user can enter any number of characters and others characters can be seen using arrow keys.
+
+           tf3 = new TextField("I Display", 15);
+
+     By default, the string "I Display" is displayed in the text field, tf3.
+
+         tf2.setEchoChar('*');
+  
+  In tf2, what ever typed is echoed as *
+
+        tf3.setEditable(false);
+
+    User cannot enter anything in tf3.  It is meant for the programmer to display some thing.
+
+Note: We get ActionListener in four places in AWT. They are a) Button b) TextField c) List  d) Menu.  That is, ActionListener handles the events of all these four components.
+*/
+======================================
+
+// a program that uses a combination of buttons and text fields.
+
+// to do arithmetic operations using buttons
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class Arith extends Frame implements ActionListener
+{
+                                         // reference variables
+TextField tf1, tf2, tf3;                // 3 text fields
+Button pb, mb1, mb2, mb3, db, eb;   // 6 buttons
+
+public Arith( )
+{
+                                       // setting the layout
+  setLayout(new GridLayout(6, 2, 5, 5));
+  setBackground(Color.cyan);
+
+              	                      // creating objects
+  tf1 = new TextField(10);
+  tf2 = new TextField(10);
+  tf3 = new TextField(10);
+
+  pb = new Button("+");
+  mb1 = new Button("-");
+  mb2 = new Button("*");
+  mb3 = new Button("%");
+  db = new Button("/");
+  eb = new Button("EXIT");
+
+                                         // event handling
+  pb.addActionListener(this);
+  mb1.addActionListener(this);
+  mb2.addActionListener(this);
+  mb3.addActionListener(this);
+  db.addActionListener(this);
+  eb.addActionListener(this);
+
+                                             // beautification
+eb.setForeground(Color.red);
+tf3.setEditable(false);
+tf3.setFont(new Font("Serif", Font.BOLD,20));
+
+              // adding components, order is important
+add(new Label("Enter 1st Number"));
+add(tf1);
+
+add(new Label("Enter 2nd Number"));
+add(tf2);
+
+add(pb);                  // adding buttons one by one
+add(mb1);
+add(mb2);
+add(mb3);
+add(db);
+add(eb);
+
+add(new Label("Result"));      // adding last row
+add(tf3);
+	                                // create the frame
+setTitle("Arithmetic");
+setSize(400,450);
+setVisible(true);
+}
+                   // override the abstract method of AL
+public void actionPerformed(ActionEvent e)
+{
+String s1 = tf1.getText();
+double d1 = Double.parseDouble(s1);
+double d2 = Double.parseDouble(tf2.getText());
+
+//  Object obj = e.getSource();
+//  Button btn = (Button) obj;
+Button btn = (Button) e.getSource();
+
+// getSource( ) returns the object of the button(in Object form).
+
+String s2 = " ";          // a temporary local variable
+
+if(btn ==  pb)
+     s2 = "sum = " + (d1+d2); // assign a value to s2
+else if(btn ==  mb1)
+        s2 = "Difference = " + (d1-d2);
+else if(btn ==  mb2)
+       s2 = "Product = " + (d1*d2);
+else if(btn ==  mb3)
+       s2 = "Remainder =  "+ (d1%d2);
+else if(btn ==  db)
+        s2 = "Quotient = " + Math.round((d1/d2));
+else if(btn ==  eb)
+    System.exit(0);  // closes the current application
+
+tf3.setText(s2);          // place the result s2 in tf3
+}
+public static void main(String[] args)
+{
+      new Arith();
+}
+}
+
+/*
+a)          A button can be identified by the programmer in two ways: a) by its label (like Exit)  b) by its object ( like eb).
+      
+        In the above program, the button clicked by the user is known by its object.
+
+b) The ActionListener comes in 4 places  in AWT.  That is, the following 4 components use ActionListener.
+
+i) Button  ii) TextField  iii) List    iv) Menu
+
+*/
+========================================   
+/*
+                                Checkbox
+           
+    Checkbox is preferred by the programmer when the user is left with two options - yes or no or true or false.
+
+    Checkbox has two states.  If selected, it returns true and if deselected, it returns false.
+
+    Chckbox generates ItemEvent and is handled by ItemListener.
+
+    Using getState() method, we can know which checkbox user selected.
+
+*/
+
+// to change font of the label as per the checkbox selected
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class CheckDemo extends Frame implements ItemListener   
+                            // for checkbox, it is ItemListener
+{
+  Checkbox cb1,cb2,cb3,cb4;     // four checkboxes
+  Label lab;                                  // one label
+
+  public CheckDemo()
+  {
+                                   // default layout BL is used
+            // convert reference variables into objects
+cb1 = new Checkbox("Monospaced");
+cb2 = new Checkbox("Bold", true);
+                              // true indicates default selected
+cb3 = new Checkbox("Italic");
+cb4 = new Checkbox("Exit");
+lab = new Label("Hello World");
+                                              // adding to the frame
+add(cb1,"North");
+add(cb4,"South");
+add(cb2,"West");
+add(cb3,"East");
+add(lab,"Center");
+
+               // register checkboxes with ItemListener
+cb1.addItemListener(this);
+cb2.addItemListener(this);
+cb3.addItemListener(this);
+cb4.addItemListener(this);
+	                               // create the frame
+setTitle("Creating check boxes");
+setSize(300, 300);
+setVisible(true);
+    }
+
+// override the only abstract method of ItemListener
+
+public void itemStateChanged(ItemEvent e)
+{
+                            // take some local variables
+	String str = "";
+	int b = 0, i = 0;
+
+// getState( ) returns the state of the chekcbox -- if selected true, else false
+
+	if(cb1.getState() == true)
+		str = "Monospaced";
+	else
+		str = "Serif";
+
+	if(cb2.getState() == true)
+		b = Font.BOLD;
+	else
+		b = Font.PLAIN;
+	
+	if(cb3.getState() == true)
+		i = Font.ITALIC;
+	else
+		i = Font.PLAIN;
+	
+	if(cb4.getState() == true)  
+		System.exit(0); 	
+
+// create a font object with local variables and apply it to the label
+                  lab.setFont(new Font(str, b + i, 25));
+   }                              // b + i is for bold and italic
+
+   public static void main(String args[])
+   {
+	new CheckDemo();
+   }
+}
+
+/*
+a)           cb2 = new Checkbox("Bold", true);
+
+cb2 is by default selected.  But no action takes place. 
+
+b) getState() returns the state of the chekcbox. If selected, the method returns true else false.
+*/
+
+=======================================
+/*                             Panels
+
+Panels are extensively used in the layout of management along with layout managers.  A panel works both like a container and a component.  As container, we can add compnonents like buttons to it.  As component, we can add it to a frame(another container).
+
+The default layout manager for Panel is FlowLayout.  Panels do not generate any events. Panels do not have a border.
+
+Q: Name two components that do not generate any events at all?
+          a) Label   b) Panel
+*/
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class PanelDemo extends Frame
+{
+       Button b1, b2, b3, b4, b5, b6;
+       Panel p1, p2;
+       public PanelDemo()
+       {
+    setLayout(new BorderLayout()); // also default
+                                                     // create buttons
+             b1 = new Button("Button 1");
+             b2 = new Button("Button 2");
+             b3 = new Button("Button 3");
+             b4 = new Button("Button 4");
+             b5 = new Button("Button 5");
+             b6 = new Button("Button 6");
+                                                        // create panels
+            p1 = new Panel();
+            p2 = new Panel();
+                                                  // optional
+            p1.setBackground(Color.cyan);
+            p2.setBackground(Color.pink);
+
+     // settting a layout to a panel, just for practice
+
+            p2.setLayout(new GridLayout(1,3,10,0));
+// 1 row, 3 columns, 10 hgap, 0 vgap
+
+// for p1, we are using the default, FL
+
+                                              // add 3 buttons to p1
+          p1.add(b1);
+          p1.add(b2);
+          p1.add(b3);
+                                             // add 3 buttons to p2
+          p2.add(b4);
+          p2.add(b5);
+          p2.add(b6);
+                                            // add panels to frame
+                                   // remember, frame is in BL
+         add(p1, "North");
+         add(p2, "South");
+
+//window closing, another style, using adapter class
+
+         //  CloseMe cm = new CloseMe();
+          // addWindowListener(cm);
+        addWindowListener(new CloseMe());
+  
+                    // set methods for frame creation
+        setTitle("Panels by SNRao");
+        setSize(300,300);
+        setVisible(true);
+    }
+    public static void main(String args[])
+    {
+             new PanelDemo();
+    }
+}
+
+class CloseMe extends WindowAdapter
+{
+     public void windowClosing(WindowEvent e)
+     {
+              System.exit(0);
+     }
+}
+
+/*
+                              Adapter classes
+
+     Adapter classes were introduced from jdk1.2 version.  We can use adapter classes in combination with inner classes.
+
+   Adapter classes make event handling very simpler. Adapter classes are abstract classes from java.awt.event package.
+
+  Using adapter classes, we can override any one or more methods, we like of the listener interface.
+
+    Any listener that has got more than one abstract method, has got a corresponding adapter class.
+
+Following table gives some important listeners and their corresponding adapter classes.
+
+    Listener interface      Corresponding adapter 
+
+1. WindowListener (7)         WindowAdapter
+2. MouseListener (5)            MouseAdapter
+3.MouseMotionListener(2)MouseMotionAdapter
+4. KeyListener (3)                KeyAdapter
+
+Note: The values in the parantheses indicates the number of abstract methods, the listener contains.
+
+     ActionListener, ItemListener etc. do not have a corresponding adapter class as they contain only one abstract method.
+
+*/
+========================================
+
+/*	                 Radio Buttons
+
+Radio buttons is a group of checkboxes made as one unit.  In the unit, the user can select only one checkbox.  It is more user-friendly when the user has to select only one item among many displayed.
+
+The functionality of radio buttons is like a radio where when we tune to another station, the earlier station gets automatically deselected.
+
+To group the checkboxes as one unit, the java.awt package includes a class called CheckboxGroup.
+
+*/
+
+// Aim: to display the user selection of radio buttons of vehicle and color in a text field
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class RadioDemo extends Frame implements ItemListener
+{  
+     Checkbox cb1, cb2, cb3, cb4, cb5, cb6;
+     Panel p1, p2;                     // for two groups
+
+     TextField tf;       // to display the user selection
+
+     CheckboxGroup cbg1, cbg2; 
+                  // to group checkboxes into two groups
+
+     public RadioDemo()
+     {
+                                                // default BL is used
+	p1 = new Panel();           // for vehicles
+	p2 = new Panel();          // for colors
+
+   cbg1 = new CheckboxGroup();     // for vehicles
+   cbg2 = new CheckboxGroup();     // for colors
+
+	                                  // beautification	
+    p1.setBackground(Color.pink);
+    p2.setBackground(Color.yellow);
+
+                    // to set a layout to panel for practice
+    p1.setLayout(new GridLayout(1, 3, 15, 0));
+
+                                      // first group, cbg1
+cb1 = new Checkbox("Hero Honda", cbg1, true);             
+           // true means, by default selected. cb1 is placed in the group called cbg1
+
+       cb2 = new Checkbox("Bajaj", cbg1, false);
+       cb3 = new Checkbox("Pulsar", cbg1, false);
+
+        // cb1, cb2 and cb3 are placed in the group called cbg1 and like this, we can place as many radio buttons, as we like, in a single group
+
+                // second group, cbg2 for color selection
+
+       cb4 = new Checkbox("Black", cbg2, true);
+       cb5 = new Checkbox("Maroon", cbg2, false);
+       cb6 = new Checkbox("Silver", cbg2, false);
+
+                                   // add checkboxes to panels
+
+       p1.add(cb1);     p1.add(cb2); p1.add(cb3);
+       p2.add(cb4);     p2.add(cb5); p2.add(cb6);
+
+         // add the panels and text field to the frame
+
+                add(p1,"North");
+                add(p2,"South");
+                add(tf = new TextField(15), "Center");   
+
+/* observe, tf is created and added in a different way instead of
+                 tf = new TextField(15)
+                 add(tf, "Center");
+*/
+                           // beautification to the text field
+              tf.setBackground(Color.cyan);
+              tf.setFont(new Font("Monospaced",Font.BOLD,18));
+
+                   // register the checkcboxes with the IL
+               cb1.addItemListener(this);
+               cb2.addItemListener(this);
+               cb3.addItemListener(this);
+               cb4.addItemListener(this);
+               cb5.addItemListener(this);
+               cb6.addItemListener(this);
+
+             // window closing using WindowAdapter
+
+               addWindowListener(new CloseMe());
+
+                                                   // create the frame
+	setSize(450,300);
+	setVisible(true);
+   }
+             // override the only abstract method of IL
+   public void itemStateChanged(ItemEvent e)
+   {
+                // two local temporary string variables	
+
+             String str1="", str2="";
+
+                  // depending  on the selection, assign a value to the string
+
+// if-else ladder to know vehicle selection
+
+	if(cb1.getState() == true)
+	        str1 = "Famous  Hero Honda";
+	else if(cb2.getState() == true)
+	        str1 = "Hamara Bajaj";
+	else if(cb3.getState() == true)
+	        str1 = "Speedy Pulsar";
+
+// Another if-else ladder to know color selection
+
+	if(cb4.getState() == true)
+ 	        str2 = "Black";
+	else if(cb5.getState() == true)
+	        str2 = "Maroon";
+	else if(cb6.getState() == true)
+	        str2 = "Silver";
+
+// place the str1 & str2 values in the text field
+
+ tf.setText("Good Taste, U want " + str1 + " in " + str2);
+
+    }
+    public static void main(String args[])
+    {
+	new RadioDemo();
+    }
+}
+========================================
+/*                                  Choice
+
+      When the radio buttons are many to display, the whole frame is flocked by radio buttons.  In this situation, we prefer Choice.  Choice gives a drop-down list in which user can select only one. 
+
+      Choice generates ItemEvent and handled by ItemListener.
+
+*/
+
+// Displaying the user selection as a label. Here, we write an applet. Run with ChoiceDemo.html program.
+
+import java.awt.*;
+import java.awt.event.*;
+import java.applet.*;              // for Applet class
+
+public class ChoiceDemo extends Applet implements ItemListener 
+{
+    Choice destination;
+    Label lab;            // to display user's selection
+
+    int fare[] = { 120, 89, 98, 123 };
+
+    public void init()       // instead of a constructor
+    {                            
+        setLayout(new BorderLayout());
+          // default layout manager for applet is FL
+
+                                     // creating a Choice object
+         destination = new Choice();
+
+   		// adding some elements
+         destination.addItem("Guntur");
+         destination.addItem("Vijayawada");
+         destination.addItem("Nizamabad");
+         destination.addItem("Bhanswada");
+
+		                   // beautification
+         destination.setFont(new Font("Monospaced",Font.BOLD,15));                 	
+
+          lab = new Label("I display, U select");
+          lab.setFont(new Font("DialogInput",Font.BOLD,20));
+          lab.setForeground(Color.blue);
+          lab.setBackground(Color.pink);
+
+                             // add the components to frame
+          add(destination, BorderLayout.NORTH);
+                                                // instead of "North"
+
+          add(lab, BorderLayout.SOUTH);
+                                             // instead of "South"
+
+                                               // linking to the IL
+          destination.addItemListener(this);
+    }                                                // close init( )
+
+// no set methods and window closing is also
+// by default
+
+                    // override the abstract method of IL
+
+    public void itemStateChanged(ItemEvent e)
+    {
+         String str = destination.getSelectedItem();
+         int x = destination.getSelectedIndex();
+         lab.setText("U want to go " + str + " of Sr.No." + (x+1));
+    }
+}              // close the class
+	// no main() method as it is an applet
+
+/*
+a) addItem( ) is used to add elements to Choice
+
+b) getSelectedItem( ) returns the item selected by the user as a string
+
+c) getSelectedIndex( ) returns the index number of the item selected by the user. By default, items in a choice are given numbers, the first one as 0 and the second one as 1 and so on.
+
+	Frame to Applet changes:
+1. extend Applet instead of Frame
+2. write init( ) instead of constructor
+3. No set methods to create a frame because they are written in html file as width and height
+4. window closing is not required as it is by default
+5. no main( ) method
+6. write html file and open in a browser
+
+Note:
+	All the earlier frame programs can be converted to applets or this applet can be converted into a frame.
+*/
+======================================
+// A html program to run the above applet
+
+<applet code="ChoiceDemo" width="450" height="200">
+</applet>
+======================================
+
+/*                            List
+
+List component is used for single selection and also multiple selection.  That is, it can be used like radio buttons or checkboxes.  
+
+List generates two events:
+a) ItemEvent for single click and handled by ItemListener
+
+b) ActionEvent for double click and handled by ActionListener
+
+Comparison with Choice:
+
+a) Choice generates single event called ItemEvent where as List generates two events - ItemEvent and ActionEvent.
+
+b) Choice gives a drop-down list where as List gives a scroll bar.
+
+c) Choice is used for single selection only where as List can be used for single selection as well as multiple selection.
+*/
+
+ // Aim: user selection of list items is displayed using drawString( ).  Use with ListDemo.html file.
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class ListDemo extends java.applet.Applet implements ActionListener
+{	                          // AL for double click
+    List shops;
+   public void init()
+     {                                  // default FL is used
+                                       // create List component
+         shops = new List(5, true);
+                                // true is for multiple selection
+// 5 indicates number of visible items in the list
+
+         shops.add("Chandana Bros");
+         shops.add("Kalaniketan");
+         shops.add("Kalamandir");
+         shops.add("J C Brothers");
+         shops.add("CMR Mall");
+         shops.add("RS Bros");
+         shops.add("Bommana Bros"); 
+
+         add(shops);                         // add to applet
+         shops.addActionListener(this);
+    }                         // no set methods as it is applet
+
+                                                   // event handling
+    public void actionPerformed(ActionEvent e)
+    {
+           repaint();
+    }
+    public void paint(Graphics g)
+    {
+        String names[] = shops.getSelectedItems();
+        int x1[] = shops.getSelectedIndexes();
+
+   for( int i = 0, x = 50, y =150; i < names.length; i++, y+=25)
+        {
+           g.drawString("Sl.No." + (x1[i]+1) + "  " + names[i], x, y);
+       }
+    }
+}
+                                                        // no main()
+/*
+ 1. getSelectedItems( ) returns the item names selected by the user as a string array
+
+2. getSelectedIndexes() returns an array of integers of the index numbers of the items selected by the user. Remember, the index number starts with zero.
+
+3. paint() is called implicitly by the frame when the frame(or applet) is created or when the frame is resized(dragged). 
+
+4.  If the programmer wants to call paint( ) method in his program explicitly, he is permitted to call repaint( ) method but not paint() method. If paint( ) method is called directly, it is a compilation error.
+
+5.  About repaint() method:
+
+                  repaint() --> update() --> paint()
+
+       repaint( ) calls update( ) method and update( ) method job is to clear the earlier drawings existing on the frame. update( ) calls implicitly, paint( ) method. paint( ) method draws afresh on the cleared frame window.
+*/
+=========================================
+A html program to run the above applet:
+
+<applet code="ListDemo" width="300" height="400">
+</applet>
+========================================
+/*                           Menus
+
+   Menus are very common in windows environment.  Menu gives an abridged(concise) form for many selections and takes very less space.
+
+Steps of creating menus:
+
+1.  Create menu bar
+2.  Add menu bar to the frame
+3.  Create menus
+4.  Add menus to menu bar
+5.  Create menu items
+6.  Add menu items to menus
+7.  Event handilng
+
+8.  Note:  
+a)              Menu is not a component because it is not a subclass of Component class.  It is a subclass of MenuComponent.  Refer the component hierarchy.
+
+b)             As it is not a component, we cannot add it to frame directly using add() method.  It requires extra code.
+
+c)            MenuBar cannot be added to applets.  It can be added to frames only.
+
+*/
+
+// to display the contents of a file selected in a text area.
+
+import java.awt.*;
+import java.io.*;                   // for file reading
+import java.awt.event.*;
+
+public class MenuDemo extends Frame implements ActionListener
+{
+    Menu fm, dm, em, sm;                        // menus
+    TextArea ta;                                    // to display
+    public MenuDemo( )
+    {                                   // creating the menu bar
+	MenuBar mb = new MenuBar(); 
+	setMenuBar(mb);  
+// adding menu bar to frame and by default added to North.  We can't add menus to applets.
+
+                            // MenuBar is not a component 
+                      // add(mb,"North") does not work
+
+                                                  // creating menus
+	fm = new Menu("Files");
+	dm = new Menu("Date");
+	em = new Menu("Exit");
+	sm = new Menu("Class Files");
+
+                                     // add menus to menu bar
+	mb.add(fm);
+	mb.add(dm);
+	mb.add(em);
+// observe, sm is not added because it is to be added to fm later as submenu
+                                         // create menu items
+MenuItem mi1 = new MenuItem("FlowDemo.java");
+
+fm.add(mi1);               // add menu item to menu
+
+       // anonymous MenuItems also can be added
+fm.add(new MenuItem("CheckDemo.java")); 
+fm.add(new MenuItem("ListDemo.java"));
+fm.add(new MenuItem("Manipulations.java"));
+
+                                            // populate Date menu
+dm.add(new MenuItem("Hrs,Mts,Secs"));
+dm.add(new MenuItem("Complete Info"));
+
+                                             // populate Exit menu
+em.add(new MenuItem("Close"));
+
+                                             // populate sub menu
+sm.add(new MenuItem("CheckDemo.class"));
+sm.add(new MenuItem("BorderDemo.class"));
+sm.add(new MenuItem("ListDemo.class"));
+
+		// adding a separator line
+fm.addSeparator( );        // gives a dull color line
+                 
+                         // adding submenu to main menu
+fm.add(sm);  
+
+ta = new TextArea(15, 50);// 15 rows, 50 columns
+
+add(ta,"South");
+ta.setBackground(Color.cyan);   // beautification
+ta.setFont(new Font("SansSerif",Font.BOLD,12));
+
+                                                    // event handling
+	fm.addActionListener(this);
+	dm.addActionListener(this);
+	em.addActionListener(this);
+	sm.addActionListener(this);
+
+                                                          // set methods
+                   setSize(300,300);
+	setVisible(true);
+    }
+// event handling. Override the abstract method of AL. // This method is called when the menu item is clicked.
+
+    public void actionPerformed(ActionEvent e)
+    {
+           String str = e.getActionCommand();  
+// returns menu item selected, as a string
+
+       java.util.Date d = new java.util.Date();
+// Date methods are deprecated in favor of Calendar
+
+	if(str.equals("Hrs,Mts,Secs"))
+                  {
+	  ta.setText(d.getHours() + " : " + d.getMinutes() + " : " + d.getSeconds());
+                   } 
+	else if(str.equals("Complete Info"))
+                  {
+		ta.setText(d.toString());
+                  }
+	else if(str.equals("Close"))
+                  {
+		System.exit(0);
+                 }
+                else
+               {
+	ta.setText("Following is the file contents of " + str + "\n\n");
+             try  
+                // to open the file and read the contents
+           {
+FileInputStream fis = new FileInputStream(str);
+   	 int k;
+	 while(( k = fis.read()) != -1)
+	 {
+                      ta.append(String.valueOf((char)k));
+	 }
+	 fis.close();
+           }                              // close the try block
+           catch(IOException e1)
+           {
+	       e1.printStackTrace();
+           }
+      }                                                // close the else
+  }                                 // close the actionPerfomed
+  public static void main(String args[])
+  {
+	new MenuDemo();
+  }
+}
+
+/*
+     TextArea includes two methods:
+
+a) setText(String str): this method replaces the earlier text with the present str.  That is, earlier is lost.
+
+b) append(String str): this method appends the present str to the existing text.
+
+i) setMenuBar(mb): this method adds menu bar implicitly on the north side of the frame.  A menu bar cannot be added to south and also menu bar cannot be added to applets.
+*/
+=======================================
+/*                            Mouse events
+
+Mouse events can be handled by two listeners:
+
+a) MouseListener when mouse is stable.This listener includes 5 abstract methods for 5 different mouse actions.
+
+b) MouseMotionListener when the mouse is in motion. This listener includes 2 abstract methods for 2 different mouse movements.
+
+*/
+
+// to change the background of the frame as per the action using MouseListener.
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class MouseDemo extends Frame implements MouseListener
+{
+    public MouseDemo( )
+    {
+                               // link the frame with ML
+            addMouseListener(this);
+
+                            // shortcut for window closing 
+  addWindowListener(new WindowAdapter( )
+  { 
+    public void windowClosing(WindowEvent e)
+    {
+          System.exit(0);
+    }
+  }
+  ) ;
+            setSize(300,300);
+            setVisible(true);
+    }
+            // override the 5 abstract methods of ML 
+
+   public void mousePressed(MouseEvent e)
+   {
+        // do some action to distinguish from other methods
+          setBackground(Color.red);
+          System.out.println("Mouse is Pressed");
+   }
+   public void mouseReleased(MouseEvent e)
+   {
+          setBackground(Color.blue);
+          System.out.println("Mouse is Released");
+   }
+   public void mouseClicked(MouseEvent e)
+   {
+          setBackground(Color.green);
+          System.out.println("Mouse is Clicked");
+   }
+   public void mouseEntered(MouseEvent e)
+   {
+          setBackground(Color.cyan);
+          System.out.println("Mouse is Entered");
+   }
+  public void mouseExited(MouseEvent e)
+  {
+          setBackground(Color.magenta);
+          System.out.println("Mouse is Exited");
+   }
+   public static void main(String args[])
+   {
+       new MouseDemo();
+   }
+}
+=========================================
+// to handle events when the mouse is in motion using MosueMotionListener
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class MouseMotionDemo extends Frame implements MouseMotionListener
+{
+    public MouseMotionDemo()
+    {
+                                    // link the frame with MML
+            addMouseMotionListener(this);
+
+                            // shortcut for window closing
+     addWindowListener(new WindowAdapter()
+     {
+       public void windowClosing(WindowEvent e)
+       {
+	System.exit(0);
+       } } );
+   
+            setSize(300,300);
+            setVisible(true);
+    }
+         // override the 2 abstract methods of MML 
+   public void mouseMoved(MouseEvent e)
+   {
+          setBackground(Color.red);
+          System.out.println("Mouse is Moved");
+   }
+   public void mouseDragged(MouseEvent e)
+   {
+          setBackground(Color.blue);
+          System.out.println("Mouse is Dragged");
+   }
+   public static void main(String args[])
+   {
+       new MouseMotionDemo();
+   }
+}
+=========================================
+/*                             Key events
+
+    Key events are handled using KeyListener which includes 3 abstract methods for different actions of a key on the keyboard.
+*/
+
+// to change the background of the frame as per the key typed using KeyListener
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class KeyDemo extends Frame implements KeyListener  
+{                                // for keyboard, it is KL
+	public KeyDemo()
+	{
+	    addKeyListener(this);
+                                              // window closing
+       addWindowListener(new WindowAdapter()
+       {
+       public void windowClosing(WindowEvent e)
+      {
+	System.exit(0);
+        }
+      }
+     ) ;
+                      setSize(300,300);
+                      setVisible(true);
+	}                              // close constructor
+
+               // override the 3 abstract methods of KL
+
+public void keyPressed(KeyEvent e) {  }
+public void keyReleased(KeyEvent e) { }
+public void keyTyped(KeyEvent e)
+{
+    char ch = e.getKeyChar();  
+    if(ch == 'r' || ch == 'R')       // if r or R is typed
+    {
+	setBackground(Color.red);
+    }
+    else if(ch == 'b' || ch == 'B')  // if b or B is typed
+    {
+              setBackground(Color.blue);
+    }
+    else if(ch == 'y' || ch == 'Y')  // if y or Y is typed
+    {
+          setBackground(Color.yellow);
+    }
+    else
+    {
+         System.out.println("You typed " + ch + " but type r, y and b only");
+    }
+}
+public static void main(String snrao[])
+{
+           new KeyDemo();
+}                                                      // close main()
+}                                                      // close class
+
+/*
+      getKeyChar( ) method of KeyEvent class returns the key typed by the user as a char value.
+
+*/
+=======================================
+       ================================
+        = THANK YOU FOR YOUR PATIENCE =
+        ================================
